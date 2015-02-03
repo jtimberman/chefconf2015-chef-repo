@@ -1,9 +1,23 @@
-.vagrant
-/cookbooks
+*~
+*#
+.#*
+\#*#
+.*.sw[a-z]
+*.un~
 
-# Bundler
-bin/*
-.bundle/*
+/.vagrant/
+/.kitchen/
+/.kitchen.local.yml
 
-.kitchen/
-.kitchen.local.yml
+/cookbooks/
+/vendor/cookbooks/
+
+/bin/*
+/.bundle/*
+
+/.rake_test_cache
+
+.chef/*.pem
+.chef/encrypted_data_bag_secret
+
+/data_bags/secrets/*.json
