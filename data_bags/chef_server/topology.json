@@ -1,0 +1,12 @@
+{
+  "id": "topology",
+  "topology": "tier",
+  "disabled_svcs": [],
+  "enabled_svcs": [],
+  "vips": [],
+  "dark_launch": {
+    "actions": true
+  },
+  "api_fqdn": "chef.jtimberman.name",
+  "notification_email": "ops@jtimberman.name"
+}
