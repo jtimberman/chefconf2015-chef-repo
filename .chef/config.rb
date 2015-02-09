@@ -9,15 +9,17 @@ end
 
 current_dir    = File.dirname(__FILE__)
 orgname        = get_env!('ORGNAME')
-username       = get_env!('USER')
+nodename       = ENV['CHEF_NODE'] || get_env!('USER')
+group          = ENV['DEPLOYMENT_GROUP'] || 'chefconf-demo-provisioner'
+
 chef_repo_path File.join(current_dir, '..')
 
 chef_server_url "https://api.opscode.com/organizations/#{orgname}"
-node_name       username
+node_name       nodename
 client_key      File.join(
                           File.expand_path(ENV['HOME']),
-                          '.chef', "#{username}.pem"
+                          '.chef', "#{nodename}.pem"
                          )
 
 use_policyfile   true
-deployment_group 'chefconf-demo-provisioner'
+deployment_group group
