@@ -8,5 +8,6 @@
     "actions": true
   },
   "api_fqdn": "chef.jtimberman.name",
+  "analytics_fqdn": "analytics.jtimberman.name",
   "notification_email": "ops@jtimberman.name"
 }
