@@ -23,6 +23,23 @@ In this talk, attendees will learn:
 * How to use data to drive configuration of Chef Server clusters
 * How the various premium features of Chef Server integrate across multiple nodes
 
+# Using This Repository
+
+You're welcome to try and use this repository on your own systems, but there are likely things you'll need to change, since it was built specifically for my ChefConf demonstration's use case.
+
+That said, the following will build the cluster and setup the DNS entries so the FQDNs work. This takes approximately 20 minutes.
+
+```
+% CHEF_NODE=chefconf-provisioner chef-client -c .chef/config.rb
+% DEPLOYMENT_GROUP=dnsimple-register CHEF_NODE=chefconf-provisioner chef-client -c .chef/config.rb
+```
+
+Then to tear down the cluster and remove DNS entries:
+
+```
+% DEPLOYMENT_GROUP=cleanup-provisioner CHEF_NODE=chefconf-provisioner chef-client -c .chef/config.rb
+```
+
 # License and Author
 
 - Author: Joshua Timberman <joshua@chef.io>
