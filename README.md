@@ -27,7 +27,33 @@ In this talk, attendees will learn:
 
 You're welcome to try and use this repository on your own systems, but there are likely things you'll need to change, since it was built specifically for my ChefConf demonstration's use case.
 
-That said, the following will build the cluster and setup the DNS entries so the FQDNs work. This takes approximately 20 minutes.
+That said, here are the steps I took to set up to be able to use this repository and run the demonstration.
+
+I'm working from my workstation laptop. I have installed ChefDK 0.4.0, and ChefDK's Ruby is my Ruby environment. I'm using Hosted Chef as the Chef Server, and this is configured in the `./.chef/config.rb` in this repository. I've generalized the configuration using environment variables that need to be set to use it. My user's API key is stored in `~/.chef/jtimberman.pem`.
+
+In order for the provisioning recipes to work, the provisioning node needs to be created and have permissions to update the appropriate objects in the organization. This is done with the [knife-acl plugin](https://github.com/chef/knife-acl). The following commands will:
+
+```sh
+chef gem knife-acl
+knife group create provisioners
+
+for i in read create update grant delete
+do
+  knife acl add containers clients $i group provisioners
+done
+
+for i in read create update grant delete
+do
+  knife acl add containers nodes $i group provisioners
+done
+
+knife client create -d chefconf-provisioner > ~/.chef/chefconf-provisioner.pem
+knife node create -d chefconf-provisioner
+knife actor map
+knife group add actor provisioners chefconf-provisioner
+
+knife vault create secrets dnsimple -M client -J data_bags/secrets/dnsimple.json -A jtimberman -S 'name:chefconf-provisioner'
+```
 
 ```
 % CHEF_NODE=chefconf-provisioner chef-client -c .chef/config.rb
