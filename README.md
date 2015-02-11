@@ -55,6 +55,27 @@ knife group add actor provisioners chefconf-provisioner
 knife vault create secrets dnsimple -M client -J data_bags/secrets/dnsimple.json -A jtimberman -S 'name:chefconf-provisioner'
 ```
 
+Compile (install) all the Policyfiles, and push them with their cookbooks to Hosted Chef:
+
+```
+chef install
+chef install dnsimple.rb
+chef install cleanup.rb
+chef push provisioner
+chef push register dnsimple.rb
+chef push provisioner cleanup.rb
+```
+
+Upload the required data bag items. For the secrets, see `./data_bags/secrets/README.md`.
+
+```
+knife upload data_bags/chef_server/topology.json
+knife upload data_bags/secrets/private-chef-secrets-_default.json
+knife upload data_bags/secrets/opscode-reporting-secrets-_default.json
+```
+
+And now actually launch the cluster. The first chef-client run takes about 15-20 minutes. Then run the second one to register the DNS entries for the Chef Server API and Chef Analytics FQDNs.
+
 ```
 % CHEF_NODE=chefconf-provisioner chef-client -c .chef/config.rb
 % DEPLOYMENT_GROUP=dnsimple-register CHEF_NODE=chefconf-provisioner chef-client -c .chef/config.rb
