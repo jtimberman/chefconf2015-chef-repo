@@ -21,3 +21,5 @@
 .chef/encrypted_data_bag_secret
 
 /data_bags/secrets/*.json
+
+*.lock.json
